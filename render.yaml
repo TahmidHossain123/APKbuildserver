@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: apk-builder-server
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: standard
+    region: oregon
+    numInstances: 1
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MAX_UPLOAD_SIZE_MB
+        value: 100
+      - key: BUILD_TIMEOUT_MS
+        value: 600000
+      - key: MAX_CONCURRENT_BUILDS
+        value: 1
+      - key: GRADLE_OPTS
+        value: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m -XX:+HeapDumpOnOutOfMemoryError"
+      - key: ANDROID_HOME
+        value: /opt/android-sdk
+      - key: JAVA_HOME
+        value: /usr/lib/jvm/java-17-openjdk-amd64
